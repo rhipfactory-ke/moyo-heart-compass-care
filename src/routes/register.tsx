@@ -209,16 +209,16 @@ function Register() {
               </div>
               <div className="grid gap-4 rounded-2xl border bg-muted/40 p-4 sm:grid-cols-2">
                 <label className="grid gap-1.5 text-xs font-medium">
-                  Moyo Contact / Next of Kin Name (optional)
+                  Moyo Contact / Care Supporter Name (optional)
                   <input
                     value={caregiverName}
                     onChange={(e) => setCaregiverName(e.target.value)}
-                    placeholder="e.g. John Doe (Spouse)"
+                    placeholder="e.g. John Doe (Spouse / Supporter)"
                     className="field"
                   />
                 </label>
                 <label className="grid gap-1.5 text-xs font-medium">
-                  Moyo Contact Phone (optional)
+                  Moyo Contact / Care Supporter Phone (optional)
                   <input
                     type="tel"
                     value={caregiverPhone}
