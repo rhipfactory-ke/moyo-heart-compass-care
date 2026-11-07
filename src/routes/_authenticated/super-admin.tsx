@@ -126,6 +126,9 @@ function SuperAdminPage() {
   const headacheCount = symptoms.filter((s) => s.headache).length;
   const dizzinessCount = symptoms.filter((s) => s.dizziness).length;
   const chestCount = symptoms.filter((s) => s.chestDiscomfort).length;
+  const visualCount = symptoms.filter((s) => s.visualChanges).length;
+  const breathingCount = symptoms.filter((s) => s.breathingDifficulty).length;
+  const palpitationsCount = symptoms.filter((s) => s.palpitations).length;
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] pb-16 text-[#2C3E50]">
@@ -398,31 +401,61 @@ function SuperAdminPage() {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-3 gap-3 text-center">
-                  <div className="rounded-xl border border-slate-100 bg-slate-50 p-3">
+                <div className="grid grid-cols-2 gap-2 text-center sm:grid-cols-3">
+                  <div className="rounded-xl border border-slate-100 bg-slate-50 p-2.5">
                     <div className="text-[10px] font-bold uppercase text-slate-500">Headache</div>
-                    <div className="mt-1 font-display text-2xl font-black text-[#7A0000]">
+                    <div className="mt-1 font-display text-xl font-black text-[#7A0000]">
                       {pct(headacheCount, symptoms.length)}
                     </div>
                     <div className="text-[10px] text-slate-400">{headacheCount} reports</div>
                   </div>
 
-                  <div className="rounded-xl border border-slate-100 bg-slate-50 p-3">
+                  <div className="rounded-xl border border-slate-100 bg-slate-50 p-2.5">
                     <div className="text-[10px] font-bold uppercase text-slate-500">Dizziness</div>
-                    <div className="mt-1 font-display text-2xl font-black text-amber-600">
+                    <div className="mt-1 font-display text-xl font-black text-amber-600">
                       {pct(dizzinessCount, symptoms.length)}
                     </div>
                     <div className="text-[10px] text-slate-400">{dizzinessCount} reports</div>
                   </div>
 
-                  <div className="rounded-xl border border-slate-100 bg-slate-50 p-3">
+                  <div className="rounded-xl border border-slate-100 bg-slate-50 p-2.5">
                     <div className="text-[10px] font-bold uppercase text-slate-500">
                       Chest Discomfort
                     </div>
-                    <div className="mt-1 font-display text-2xl font-black text-[#B71C1C]">
+                    <div className="mt-1 font-display text-xl font-black text-[#B71C1C]">
                       {pct(chestCount, symptoms.length)}
                     </div>
                     <div className="text-[10px] text-slate-400">{chestCount} reports</div>
+                  </div>
+
+                  <div className="rounded-xl border border-slate-100 bg-slate-50 p-2.5">
+                    <div className="text-[10px] font-bold uppercase text-slate-500">
+                      Visual Changes
+                    </div>
+                    <div className="mt-1 font-display text-xl font-black text-purple-700">
+                      {pct(visualCount, symptoms.length)}
+                    </div>
+                    <div className="text-[10px] text-slate-400">{visualCount} reports</div>
+                  </div>
+
+                  <div className="rounded-xl border border-slate-100 bg-slate-50 p-2.5">
+                    <div className="text-[10px] font-bold uppercase text-slate-500">
+                      Breathing Difficulty
+                    </div>
+                    <div className="mt-1 font-display text-xl font-black text-rose-700">
+                      {pct(breathingCount, symptoms.length)}
+                    </div>
+                    <div className="text-[10px] text-slate-400">{breathingCount} reports</div>
+                  </div>
+
+                  <div className="rounded-xl border border-slate-100 bg-slate-50 p-2.5">
+                    <div className="text-[10px] font-bold uppercase text-slate-500">
+                      Palpitations
+                    </div>
+                    <div className="mt-1 font-display text-xl font-black text-red-600">
+                      {pct(palpitationsCount, symptoms.length)}
+                    </div>
+                    <div className="text-[10px] text-slate-400">{palpitationsCount} reports</div>
                   </div>
                 </div>
               </Card>

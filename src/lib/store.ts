@@ -63,6 +63,9 @@ export interface WeeklySymptomCheckin {
   headache: boolean;
   chestDiscomfort: boolean;
   dizziness: boolean;
+  visualChanges?: boolean;
+  breathingDifficulty?: boolean;
+  palpitations?: boolean;
   notes?: string;
 }
 
@@ -198,7 +201,19 @@ export function setSession(session: ActiveSession | null) {
 
 // --- Super Admins ---
 export function getSuperAdmins(): SuperAdminAccount[] {
-  return readJson<SuperAdminAccount[]>(KEYS.SUPER_ADMINS, []);
+  const current = readJson<SuperAdminAccount[]>(KEYS.SUPER_ADMINS, []);
+  if (current.length === 0) {
+    const defaultSuperAdmin: SuperAdminAccount = {
+      id: "sadmin-master",
+      name: "MoyoDoc Super Admin",
+      email: "superadmin@moyodoc.com",
+      password: "admin",
+      createdAt: new Date().toISOString(),
+    };
+    writeJson(KEYS.SUPER_ADMINS, [defaultSuperAdmin]);
+    return [defaultSuperAdmin];
+  }
+  return current;
 }
 
 export function registerSuperAdmin(input: {
@@ -240,7 +255,36 @@ export function authenticateSuperAdmin(
 
 // --- Hospitals (Enrolled by Super Admin) ---
 export function getHospitals(): HospitalOrg[] {
-  return readJson<HospitalOrg[]>(KEYS.HOSPITALS, []);
+  const current = readJson<HospitalOrg[]>(KEYS.HOSPITALS, []);
+  if (current.length === 0) {
+    const defaultHospitals: HospitalOrg[] = [
+      {
+        id: "hosp-nairobi-heart",
+        name: "Nairobi Heart & Vascular Institute",
+        county: "Nairobi",
+        licenseNumber: "MED-KE-101",
+        adminName: "Nairobi Heart Admin",
+        adminEmail: "admin@nairobiheart.co.ke",
+        adminPassword: "admin",
+        status: "ACTIVE",
+        createdAt: new Date().toISOString(),
+      },
+      {
+        id: "hosp-coast-general",
+        name: "Coast Heart & Cardiology Centre",
+        county: "Mombasa",
+        licenseNumber: "MED-KE-202",
+        adminName: "Coast Cardiology Admin",
+        adminEmail: "admin@coastcardiology.co.ke",
+        adminPassword: "admin",
+        status: "ACTIVE",
+        createdAt: new Date().toISOString(),
+      },
+    ];
+    writeJson(KEYS.HOSPITALS, defaultHospitals);
+    return defaultHospitals;
+  }
+  return current;
 }
 
 export function addHospital(input: {
@@ -838,6 +882,9 @@ export function logWeeklySymptoms(input: {
   headache: boolean;
   chestDiscomfort: boolean;
   dizziness: boolean;
+  visualChanges?: boolean;
+  breathingDifficulty?: boolean;
+  palpitations?: boolean;
   notes?: string;
 }): WeeklySymptomCheckin {
   const all = getSymptomCheckins();
@@ -848,6 +895,9 @@ export function logWeeklySymptoms(input: {
     headache: input.headache,
     chestDiscomfort: input.chestDiscomfort,
     dizziness: input.dizziness,
+    visualChanges: input.visualChanges,
+    breathingDifficulty: input.breathingDifficulty,
+    palpitations: input.palpitations,
     notes: input.notes,
   };
   writeJson(KEYS.SYMPTOMS, [item, ...all]);

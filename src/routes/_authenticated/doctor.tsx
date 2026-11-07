@@ -735,9 +735,18 @@ function DoctorDashboardPage() {
                             <Button
                               variant="outline"
                               size="sm"
-                              disabled={isRevoked}
+                              disabled={isRevoked || (isOut && !isAcknowledged)}
                               onClick={() => setAdjustingPatient(patient)}
-                              className="h-8 border-slate-200 px-2.5 text-xs font-semibold text-[#7A0000] hover:bg-[#FDF2F2]"
+                              className={`h-8 border-slate-200 px-2.5 text-xs font-semibold ${
+                                isOut && !isAcknowledged
+                                  ? "cursor-not-allowed opacity-50 text-slate-400"
+                                  : "text-[#7A0000] hover:bg-[#FDF2F2]"
+                              }`}
+                              title={
+                                isOut && !isAcknowledged
+                                  ? "Please acknowledge alert first before adjusting care plan"
+                                  : undefined
+                              }
                             >
                               {patient.adjustedPlan ? "Update Plan" : "Adjust Plan"}
                             </Button>

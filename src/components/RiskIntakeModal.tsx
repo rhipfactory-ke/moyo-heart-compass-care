@@ -297,23 +297,23 @@ export function RiskIntakeModal({
 
               <div className="rounded-2xl border border-slate-200 bg-white p-3.5 shadow-xs">
                 <div className="text-xs font-bold text-slate-800">
-                  Caregiver / Next of Kin (optional)
+                  Moyo Contact / Care Supporter (optional)
                 </div>
                 <div className="mt-2.5 grid grid-cols-2 gap-2">
                   <div>
                     <Label className="text-[10px] font-semibold text-slate-500">
-                      Caregiver Name
+                      Supporter Name
                     </Label>
                     <Input
                       value={caregiverName}
                       onChange={(e) => setCaregiverName(e.target.value)}
                       className="mt-1 h-8 rounded-lg border-slate-200 text-xs"
-                      placeholder="e.g. John Doe (Spouse)"
+                      placeholder="e.g. John Doe (Spouse / Supporter)"
                     />
                   </div>
                   <div>
                     <Label className="text-[10px] font-semibold text-slate-500">
-                      Phone number
+                      Supporter Phone
                     </Label>
                     <Input
                       value={caregiverPhone}
@@ -327,7 +327,7 @@ export function RiskIntakeModal({
                 <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-2.5">
                   <div className="pr-2">
                     <div className="text-[11px] font-semibold text-slate-700">
-                      Send automated WhatsApp alerts to Caregiver
+                      Send automated WhatsApp updates to Moyo Contact / Care Supporter
                     </div>
                   </div>
                   <Switch

@@ -73,6 +73,11 @@ export function usePatients() {
       doctorName?: string;
     }) => {
       const current = getPatients();
+      const target = current.find((p) => p.id === patientId);
+      if (target && target.bucket === "OUT_OF_CONTROL" && target.status !== "ACKNOWLEDGED") {
+        throw new Error("Patient alert must be acknowledged before titrating or adjusting care plan.");
+      }
+
       const updated = current.map((p) => {
         if (p.id === patientId) {
           return {
@@ -90,9 +95,10 @@ export function usePatients() {
     onSuccess: (updated) => {
       qc.setQueryData(["patients-panel"], updated);
       qc.invalidateQueries({ queryKey: ["patients-panel"] });
+      toast.success("Care plan adjustment saved and transmitted to patient companion.");
     },
-    onError: () => {
-      toast.error("Failed to update patient care plan.");
+    onError: (err: any) => {
+      toast.error(err?.message || "Failed to adjust care plan.");
     },
   });
 
