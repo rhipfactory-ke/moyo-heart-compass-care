@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -13,6 +14,9 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header, Footer } from "../components/site/SiteChrome";
+import { Toaster } from "../components/ui/sonner";
+
+const WORKSPACE_PREFIXES = ["/patient", "/doctor", "/hospital", "/super-admin", "/app"];
 
 function NotFoundComponent() {
   return (
@@ -112,13 +116,19 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isWorkspaceRoute = WORKSPACE_PREFIXES.some(
+    (p) => pathname === p || pathname.startsWith(`${p}/`),
+  );
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Header />
+      {!isWorkspaceRoute && <Header />}
       <main>
         <Outlet />
       </main>
-      <Footer />
+      {!isWorkspaceRoute && <Footer />}
+      <Toaster position="top-center" richColors />
     </QueryClientProvider>
   );
 }

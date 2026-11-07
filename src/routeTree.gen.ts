@@ -10,18 +10,29 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as LegalRouteImport } from './routes/legal'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as PatientsRouteImport } from './routes/patients'
 import { Route as RegisterRouteImport } from './routes/register'
+import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
+import { Route as AuthenticatedDoctorRouteImport } from './routes/_authenticated/doctor'
+import { Route as AuthenticatedHospitalRouteImport } from './routes/_authenticated/hospital'
+import { Route as AuthenticatedPatientRouteImport } from './routes/_authenticated/patient'
+import { Route as AuthenticatedSuperAdminRouteImport } from './routes/_authenticated/super-admin'
 import { Route as ProvidersIndexRouteImport } from './routes/providers.index'
 import { Route as ProvidersApplyRouteImport } from './routes/providers.apply'
+import { Route as AuthenticatedDoctorPatientPatientIdRouteImport } from './routes/_authenticated/doctor_.patient.$patientId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -54,6 +65,31 @@ const RegisterRoute = RegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedDoctorRoute = AuthenticatedDoctorRouteImport.update({
+  id: '/doctor',
+  path: '/doctor',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHospitalRoute = AuthenticatedHospitalRouteImport.update({
+  id: '/hospital',
+  path: '/hospital',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPatientRoute = AuthenticatedPatientRouteImport.update({
+  id: '/patient',
+  path: '/patient',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSuperAdminRoute = AuthenticatedSuperAdminRouteImport.update({
+  id: '/super-admin',
+  path: '/super-admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const ProvidersIndexRoute = ProvidersIndexRouteImport.update({
   id: '/providers/',
   path: '/providers/',
@@ -64,6 +100,12 @@ const ProvidersApplyRoute = ProvidersApplyRouteImport.update({
   path: '/providers/apply',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedDoctorPatientPatientIdRoute =
+  AuthenticatedDoctorPatientPatientIdRouteImport.update({
+    id: '/doctor_/patient/$patientId',
+    path: '/doctor/patient/$patientId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -73,8 +115,14 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/patients': typeof PatientsRoute
   '/register': typeof RegisterRoute
+  '/app': typeof AuthenticatedAppRoute
+  '/doctor': typeof AuthenticatedDoctorRoute
+  '/hospital': typeof AuthenticatedHospitalRoute
+  '/patient': typeof AuthenticatedPatientRoute
+  '/super-admin': typeof AuthenticatedSuperAdminRoute
   '/providers/apply': typeof ProvidersApplyRoute
   '/providers/': typeof ProvidersIndexRoute
+  '/doctor/patient/$patientId': typeof AuthenticatedDoctorPatientPatientIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -84,20 +132,33 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/patients': typeof PatientsRoute
   '/register': typeof RegisterRoute
+  '/app': typeof AuthenticatedAppRoute
+  '/doctor': typeof AuthenticatedDoctorRoute
+  '/hospital': typeof AuthenticatedHospitalRoute
+  '/patient': typeof AuthenticatedPatientRoute
+  '/super-admin': typeof AuthenticatedSuperAdminRoute
   '/providers/apply': typeof ProvidersApplyRoute
   '/providers': typeof ProvidersIndexRoute
+  '/doctor/patient/$patientId': typeof AuthenticatedDoctorPatientPatientIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/how-it-works': typeof HowItWorksRoute
   '/legal': typeof LegalRoute
   '/login': typeof LoginRoute
   '/patients': typeof PatientsRoute
   '/register': typeof RegisterRoute
+  '/_authenticated/app': typeof AuthenticatedAppRoute
+  '/_authenticated/doctor': typeof AuthenticatedDoctorRoute
+  '/_authenticated/hospital': typeof AuthenticatedHospitalRoute
+  '/_authenticated/patient': typeof AuthenticatedPatientRoute
+  '/_authenticated/super-admin': typeof AuthenticatedSuperAdminRoute
   '/providers/apply': typeof ProvidersApplyRoute
   '/providers/': typeof ProvidersIndexRoute
+  '/_authenticated/doctor_/patient/$patientId': typeof AuthenticatedDoctorPatientPatientIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -109,8 +170,14 @@ export interface FileRouteTypes {
     | '/login'
     | '/patients'
     | '/register'
+    | '/app'
+    | '/doctor'
+    | '/hospital'
+    | '/patient'
+    | '/super-admin'
     | '/providers/apply'
     | '/providers/'
+    | '/doctor/patient/$patientId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -120,23 +187,37 @@ export interface FileRouteTypes {
     | '/login'
     | '/patients'
     | '/register'
+    | '/app'
+    | '/doctor'
+    | '/hospital'
+    | '/patient'
+    | '/super-admin'
     | '/providers/apply'
     | '/providers'
+    | '/doctor/patient/$patientId'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/about'
     | '/how-it-works'
     | '/legal'
     | '/login'
     | '/patients'
     | '/register'
+    | '/_authenticated/app'
+    | '/_authenticated/doctor'
+    | '/_authenticated/hospital'
+    | '/_authenticated/patient'
+    | '/_authenticated/super-admin'
     | '/providers/apply'
     | '/providers/'
+    | '/_authenticated/doctor_/patient/$patientId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   HowItWorksRoute: typeof HowItWorksRoute
   LegalRoute: typeof LegalRoute
@@ -154,6 +235,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -198,6 +286,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/app': {
+      id: '/_authenticated/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AuthenticatedAppRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/doctor': {
+      id: '/_authenticated/doctor'
+      path: '/doctor'
+      fullPath: '/doctor'
+      preLoaderRoute: typeof AuthenticatedDoctorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/hospital': {
+      id: '/_authenticated/hospital'
+      path: '/hospital'
+      fullPath: '/hospital'
+      preLoaderRoute: typeof AuthenticatedHospitalRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/patient': {
+      id: '/_authenticated/patient'
+      path: '/patient'
+      fullPath: '/patient'
+      preLoaderRoute: typeof AuthenticatedPatientRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/super-admin': {
+      id: '/_authenticated/super-admin'
+      path: '/super-admin'
+      fullPath: '/super-admin'
+      preLoaderRoute: typeof AuthenticatedSuperAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/providers/': {
       id: '/providers/'
       path: '/providers'
@@ -212,11 +335,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProvidersApplyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/doctor_/patient/$patientId': {
+      id: '/_authenticated/doctor_/patient/$patientId'
+      path: '/doctor/patient/$patientId'
+      fullPath: '/doctor/patient/$patientId'
+      preLoaderRoute: typeof AuthenticatedDoctorPatientPatientIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAppRoute: typeof AuthenticatedAppRoute
+  AuthenticatedDoctorRoute: typeof AuthenticatedDoctorRoute
+  AuthenticatedHospitalRoute: typeof AuthenticatedHospitalRoute
+  AuthenticatedPatientRoute: typeof AuthenticatedPatientRoute
+  AuthenticatedSuperAdminRoute: typeof AuthenticatedSuperAdminRoute
+  AuthenticatedDoctorPatientPatientIdRoute: typeof AuthenticatedDoctorPatientPatientIdRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAppRoute: AuthenticatedAppRoute,
+  AuthenticatedDoctorRoute: AuthenticatedDoctorRoute,
+  AuthenticatedHospitalRoute: AuthenticatedHospitalRoute,
+  AuthenticatedPatientRoute: AuthenticatedPatientRoute,
+  AuthenticatedSuperAdminRoute: AuthenticatedSuperAdminRoute,
+  AuthenticatedDoctorPatientPatientIdRoute:
+    AuthenticatedDoctorPatientPatientIdRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   HowItWorksRoute: HowItWorksRoute,
   LegalRoute: LegalRoute,
