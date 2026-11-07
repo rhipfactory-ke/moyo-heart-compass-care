@@ -209,7 +209,7 @@ function Register() {
               </div>
               <div className="grid gap-4 rounded-2xl border bg-muted/40 p-4 sm:grid-cols-2">
                 <label className="grid gap-1.5 text-xs font-medium">
-                  Caregiver / Next of Kin Name (optional)
+                  Moyo Contact / Next of Kin Name (optional)
                   <input
                     value={caregiverName}
                     onChange={(e) => setCaregiverName(e.target.value)}
@@ -218,7 +218,7 @@ function Register() {
                   />
                 </label>
                 <label className="grid gap-1.5 text-xs font-medium">
-                  Caregiver Phone (optional)
+                  Moyo Contact Phone (optional)
                   <input
                     type="tel"
                     value={caregiverPhone}

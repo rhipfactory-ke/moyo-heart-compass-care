@@ -28,22 +28,24 @@ export function useMe() {
 
       // If no explicit session yet, check if there is a registered patient or clinician
       const patients = getPatients();
-      if (patients.length > 0) {
+      const firstPatient = patients[0];
+      if (firstPatient) {
         return {
           role: "PATIENT",
-          userId: patients[0].id,
-          name: patients[0].name,
-          email: patients[0].email,
+          userId: firstPatient.id,
+          name: firstPatient.name,
+          email: firstPatient.email,
         };
       }
       const clinicians = getClinicians();
-      if (clinicians.length > 0) {
+      const firstClinician = clinicians[0];
+      if (firstClinician) {
         return {
           role: "PHYSICIAN",
-          userId: clinicians[0].id,
-          name: clinicians[0].name,
-          email: clinicians[0].email,
-          hospitalName: clinicians[0].hospitalName,
+          userId: firstClinician.id,
+          name: firstClinician.name,
+          email: firstClinician.email,
+          hospitalName: firstClinician.hospitalName,
         };
       }
       return null;

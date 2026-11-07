@@ -21,7 +21,7 @@ interface WeeklySymptomsModalProps {
     headache: boolean;
     chestDiscomfort: boolean;
     dizziness: boolean;
-    notes?: string;
+    notes?: string | undefined;
   }) => void;
 }
 

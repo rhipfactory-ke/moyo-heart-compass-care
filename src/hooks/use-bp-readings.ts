@@ -35,9 +35,9 @@ export function useBpReadings(patientId?: string | null) {
     mutationFn: async (newReading: {
       systolic: number;
       diastolic: number;
-      pulse?: number;
-      source?: "PHOTO_OCR" | "MANUAL" | "BLUETOOTH";
-      confidence?: string;
+      pulse?: number | undefined;
+      source?: "PHOTO_OCR" | "MANUAL" | "BLUETOOTH" | undefined;
+      confidence?: string | undefined;
     }) => {
       if (!resolvedId) {
         throw new Error("Please register or select a patient profile before logging a reading.");

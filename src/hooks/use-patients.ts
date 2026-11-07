@@ -35,7 +35,7 @@ export function usePatients() {
       doctorName,
     }: {
       patientId: string;
-      doctorName?: string;
+      doctorName?: string | undefined;
     }) => {
       const current = getPatients();
       const updated = current.map((p) => {
@@ -70,7 +70,7 @@ export function usePatients() {
     }: {
       patientId: string;
       planSummary: string;
-      doctorName?: string;
+      doctorName?: string | undefined;
     }) => {
       const current = getPatients();
       const updated = current.map((p) => {
