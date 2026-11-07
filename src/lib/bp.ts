@@ -12,9 +12,9 @@ export type RiskCategory = "LOW" | "MODERATE" | "HIGH" | "VERY_HIGH";
 export function computeRisk(input: {
   age: number;
   hasDiabetes: boolean;
-  weightKg?: number | null;
-  hasHypertension?: boolean;
-  hasFamilyHistory?: boolean;
+  weightKg?: number | null | undefined;
+  hasHypertension?: boolean | undefined;
+  hasFamilyHistory?: boolean | undefined;
 }): RiskCategory {
   let score = 0;
   if (input.age >= 65) score += 2;

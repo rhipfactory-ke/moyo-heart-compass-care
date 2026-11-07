@@ -21,10 +21,7 @@ interface WeeklySymptomsModalProps {
     headache: boolean;
     chestDiscomfort: boolean;
     dizziness: boolean;
-    visualChanges: boolean;
-    breathingDifficulty: boolean;
-    palpitations: boolean;
-    notes?: string;
+    notes?: string | undefined;
   }) => void;
 }
 
@@ -37,9 +34,6 @@ export function WeeklySymptomsModal({
   const [headache, setHeadache] = useState(false);
   const [chestDiscomfort, setChestDiscomfort] = useState(false);
   const [dizziness, setDizziness] = useState(false);
-  const [visualChanges, setVisualChanges] = useState(false);
-  const [breathingDifficulty, setBreathingDifficulty] = useState(false);
-  const [palpitations, setPalpitations] = useState(false);
   const [notes, setNotes] = useState("");
 
   const handleSave = () => {
@@ -49,30 +43,16 @@ export function WeeklySymptomsModal({
         headache,
         chestDiscomfort,
         dizziness,
-        visualChanges,
-        breathingDifficulty,
-        palpitations,
         notes: notes.trim() || undefined,
       });
     }
     if (onSave) {
-      onSave({
-        headache,
-        chestDiscomfort,
-        dizziness,
-        visualChanges,
-        breathingDifficulty,
-        palpitations,
-        notes: notes.trim() || undefined,
-      });
+      onSave({ headache, chestDiscomfort, dizziness, notes: notes.trim() || undefined });
     }
     toast.success("Weekly symptoms saved to your clinical record.");
     setHeadache(false);
     setChestDiscomfort(false);
     setDizziness(false);
-    setVisualChanges(false);
-    setBreathingDifficulty(false);
-    setPalpitations(false);
     setNotes("");
     onOpenChange(false);
   };
@@ -132,51 +112,6 @@ export function WeeklySymptomsModal({
                 id="dizziness"
                 checked={dizziness}
                 onCheckedChange={setDizziness}
-                className="data-[state=checked]:bg-[#7A0000]"
-              />
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between pt-3">
-            <Label htmlFor="visual" className="cursor-pointer text-sm font-medium text-[#2C3E50]">
-              Visual changes (blurred vision, spots)
-            </Label>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground">{visualChanges ? "Yes" : "No"}</span>
-              <Switch
-                id="visual"
-                checked={visualChanges}
-                onCheckedChange={setVisualChanges}
-                className="data-[state=checked]:bg-[#7A0000]"
-              />
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between pt-3">
-            <Label htmlFor="breathing" className="cursor-pointer text-sm font-medium text-[#2C3E50]">
-              Difficulty in breathing (shortness of breath)
-            </Label>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground">{breathingDifficulty ? "Yes" : "No"}</span>
-              <Switch
-                id="breathing"
-                checked={breathingDifficulty}
-                onCheckedChange={setBreathingDifficulty}
-                className="data-[state=checked]:bg-[#7A0000]"
-              />
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between pt-3">
-            <Label htmlFor="palpitations" className="cursor-pointer text-sm font-medium text-[#2C3E50]">
-              Palpitations (unusually fast or fluttering heart beat)
-            </Label>
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground">{palpitations ? "Yes" : "No"}</span>
-              <Switch
-                id="palpitations"
-                checked={palpitations}
-                onCheckedChange={setPalpitations}
                 className="data-[state=checked]:bg-[#7A0000]"
               />
             </div>

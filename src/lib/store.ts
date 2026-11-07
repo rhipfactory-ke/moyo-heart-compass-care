@@ -15,9 +15,9 @@ export interface HospitalOrg {
   name: string;
   county: string;
   licenseNumber: string;
-  adminName?: string;
-  adminEmail?: string;
-  adminPassword?: string;
+  adminName?: string | undefined;
+  adminEmail?: string | undefined;
+  adminPassword?: string | undefined;
   status: "ACTIVE" | "PENDING";
   createdAt: string;
 }
@@ -28,13 +28,13 @@ export interface ClinicianRecord {
   title: string;
   role: "CARDIOLOGIST" | "PHYSICIAN" | "NURSE_COORDINATOR" | "RESIDENT";
   kmpdcReg: string;
-  hospitalId?: string;
+  hospitalId?: string | undefined;
   hospitalName: string;
   department: string;
   county: string;
   email: string;
   phone: string;
-  password?: string;
+  password?: string | undefined;
   subspecialty: string;
   consultDays: string[];
   consultFormat: string[];
@@ -63,10 +63,7 @@ export interface WeeklySymptomCheckin {
   headache: boolean;
   chestDiscomfort: boolean;
   dizziness: boolean;
-  visualChanges?: boolean;
-  breathingDifficulty?: boolean;
-  palpitations?: boolean;
-  notes?: string;
+  notes?: string | undefined;
 }
 
 export interface PatientConsent {
@@ -80,49 +77,49 @@ export interface PatientRecord {
   id: string;
   name: string;
   age: number;
-  gender?: string;
+  gender?: string | undefined;
   phone: string;
-  email?: string;
-  password?: string;
+  email?: string | undefined;
+  password?: string | undefined;
   county: string;
   conditions: string[];
   comorbidityBadge: string;
-  smokingStatus?: string;
-  symptomsNarrative?: string;
-  takingMeds?: boolean;
-  currentRegimen?: string;
-  hasHomeMonitor?: boolean;
-  familyHistory?: boolean;
+  smokingStatus?: string | undefined;
+  symptomsNarrative?: string | undefined;
+  takingMeds?: boolean | undefined;
+  currentRegimen?: string | undefined;
+  hasHomeMonitor?: boolean | undefined;
+  familyHistory?: boolean | undefined;
   riskCategory: RiskCategory;
-  caregiverName?: string;
-  caregiverPhone?: string;
-  caregiverContact?: string;
-  whatsappAlerts?: boolean;
-  specialistId?: string;
-  specialistName?: string;
-  hospitalName?: string;
+  caregiverName?: string | undefined;
+  caregiverPhone?: string | undefined;
+  caregiverContact?: string | undefined;
+  whatsappAlerts?: boolean | undefined;
+  specialistId?: string | undefined;
+  specialistName?: string | undefined;
+  hospitalName?: string | undefined;
   latestBp: {
     systolic: number;
     diastolic: number;
-    pulse?: number;
+    pulse?: number | undefined;
     measuredAt: string;
   } | null;
   contextNote: string;
   medicationAdherence: number;
   medsStreak: number;
-  lastMedsLoggedDate?: string;
+  lastMedsLoggedDate?: string | undefined;
   walksCompleted: number;
-  lastWalkLoggedDate?: string;
+  lastWalkLoggedDate?: string | undefined;
   bucket: ClinicalBucket;
   status: "OPEN" | "ACKNOWLEDGED";
-  acknowledgedAt?: string;
-  acknowledgedBy?: string;
-  adjustedPlan?: string;
-  adjustedPlanTarget?: string;
-  adjustedPlanFollowUpDays?: string;
-  adjustedPlanNote?: string;
-  adjustedPlanAt?: string;
-  adjustedBy?: string;
+  acknowledgedAt?: string | undefined;
+  acknowledgedBy?: string | undefined;
+  adjustedPlan?: string | undefined;
+  adjustedPlanTarget?: string | undefined;
+  adjustedPlanFollowUpDays?: string | undefined;
+  adjustedPlanNote?: string | undefined;
+  adjustedPlanAt?: string | undefined;
+  adjustedBy?: string | undefined;
   consent: PatientConsent;
   createdAt: string;
 }
@@ -147,9 +144,9 @@ export interface ActiveSession {
   role: "PATIENT" | "PHYSICIAN" | "HOSPITAL_ADMIN" | "SUPER_ADMIN";
   userId: string;
   name: string;
-  email?: string;
-  hospitalId?: string;
-  hospitalName?: string;
+  email?: string | undefined;
+  hospitalId?: string | undefined;
+  hospitalName?: string | undefined;
 }
 
 const KEYS = {
@@ -201,19 +198,7 @@ export function setSession(session: ActiveSession | null) {
 
 // --- Super Admins ---
 export function getSuperAdmins(): SuperAdminAccount[] {
-  const current = readJson<SuperAdminAccount[]>(KEYS.SUPER_ADMINS, []);
-  if (current.length === 0) {
-    const defaultSuperAdmin: SuperAdminAccount = {
-      id: "sadmin-master",
-      name: "MoyoDoc Super Admin",
-      email: "superadmin@moyodoc.com",
-      password: "admin",
-      createdAt: new Date().toISOString(),
-    };
-    writeJson(KEYS.SUPER_ADMINS, [defaultSuperAdmin]);
-    return [defaultSuperAdmin];
-  }
-  return current;
+  return readJson<SuperAdminAccount[]>(KEYS.SUPER_ADMINS, []);
 }
 
 export function registerSuperAdmin(input: {
@@ -255,36 +240,7 @@ export function authenticateSuperAdmin(
 
 // --- Hospitals (Enrolled by Super Admin) ---
 export function getHospitals(): HospitalOrg[] {
-  const current = readJson<HospitalOrg[]>(KEYS.HOSPITALS, []);
-  if (current.length === 0) {
-    const defaultHospitals: HospitalOrg[] = [
-      {
-        id: "hosp-nairobi-heart",
-        name: "Nairobi Heart & Vascular Institute",
-        county: "Nairobi",
-        licenseNumber: "MED-KE-101",
-        adminName: "Nairobi Heart Admin",
-        adminEmail: "admin@nairobiheart.co.ke",
-        adminPassword: "admin",
-        status: "ACTIVE",
-        createdAt: new Date().toISOString(),
-      },
-      {
-        id: "hosp-coast-general",
-        name: "Coast Heart & Cardiology Centre",
-        county: "Mombasa",
-        licenseNumber: "MED-KE-202",
-        adminName: "Coast Cardiology Admin",
-        adminEmail: "admin@coastcardiology.co.ke",
-        adminPassword: "admin",
-        status: "ACTIVE",
-        createdAt: new Date().toISOString(),
-      },
-    ];
-    writeJson(KEYS.HOSPITALS, defaultHospitals);
-    return defaultHospitals;
-  }
-  return current;
+  return readJson<HospitalOrg[]>(KEYS.HOSPITALS, []);
 }
 
 export function addHospital(input: {
@@ -882,9 +838,6 @@ export function logWeeklySymptoms(input: {
   headache: boolean;
   chestDiscomfort: boolean;
   dizziness: boolean;
-  visualChanges?: boolean;
-  breathingDifficulty?: boolean;
-  palpitations?: boolean;
   notes?: string;
 }): WeeklySymptomCheckin {
   const all = getSymptomCheckins();
@@ -895,9 +848,6 @@ export function logWeeklySymptoms(input: {
     headache: input.headache,
     chestDiscomfort: input.chestDiscomfort,
     dizziness: input.dizziness,
-    visualChanges: input.visualChanges,
-    breathingDifficulty: input.breathingDifficulty,
-    palpitations: input.palpitations,
     notes: input.notes,
   };
   writeJson(KEYS.SYMPTOMS, [item, ...all]);
